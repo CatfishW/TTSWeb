@@ -151,14 +151,21 @@ class TTSService:
                     tmp_path = Path(tmp.name)
 
                 model = self._mm.get_base_model()
+                # Validate ref_text requirement for ICL mode
+                if not req.x_vector_only_mode and not req.ref_text:
+                    raise ValueError("ref_text is required when x_vector_only_mode=False (ICL mode). Please provide the transcript of the reference audio.")
+
                 kwargs: dict = {
                     "text": req.text,
                     "language": req.language,
                     "ref_audio": str(tmp_path),
                     "x_vector_only_mode": req.x_vector_only_mode,
+                    "ref_text": req.ref_text if req.ref_text else "",  # Empty string if not provided
                 }
-                if req.ref_text:
-                    kwargs["ref_text"] = req.ref_text
+
+                # Add style instruction if provided
+                if req.instruct:
+                    kwargs["instruct"] = req.instruct
 
                 wavs, sr = await asyncio.to_thread(model.generate_voice_clone, **kwargs)
                 wav_bytes = _numpy_to_wav_bytes(wavs[0], sr)

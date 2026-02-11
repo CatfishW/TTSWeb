@@ -57,4 +57,6 @@ export interface VoiceCloneRequest {
     ref_text?: string;
     x_vector_only_mode?: boolean;
     consent_acknowledged: boolean;
+    instruct?: string;
+    speaker?: string; // Timbre guide for voice cloning
 }

@@ -1,0 +1,543 @@
+/* =========================================================
+   TTSWeb - Life is Strange Inspired Sketch Theme
+   ========================================================= */
+
+/* CSS Variables for Theming */
+:root {
+  /* Base */
+  --font-handwritten: 'Kalam', 'Caveat', cursive;
+  --font-mono: 'Courier New', monospace;
+  --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Sketch Effect */
+  --sketch-border-width: 2px;
+  --sketch-border-style: solid;
+  --sketch-roughness: 1.5px;
+  --paper-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* =========================================================
+   LIGHT THEME (Default)
+   ========================================================= */
+[data-theme="light"] {
+  /* Colors - Soft pastels like Life is Strange */
+  --color-bg: #f5f3f0;
+  --color-bg-paper: #faf8f5;
+  --color-text: #2d2a26;
+  --color-text-muted: #6b6560;
+  --color-accent: #c4a77d;
+  --color-accent-hover: #b89b6f;
+  --color-primary: #5a7a7a;
+  --color-primary-hover: #4a6a6a;
+  --color-secondary: #8b7355;
+  --color-border: #d4cfc7;
+  --color-shadow: rgba(45, 42, 38, 0.08);
+  --color-success: #6b8e6b;
+  --color-warning: #c9a959;
+  --color-error: #b87070;
+
+  /* Sketch Colors */
+  --sketch-line: #3a3632;
+  --sketch-pencil: #6b6560;
+  --highlight-color: #f0e6d3;
+}
+
+/* =========================================================
+   DARK THEME
+   ========================================================= */
+[data-theme="dark"] {
+  --color-bg: #1a1a1f;
+  --color-bg-paper: #25252b;
+  --color-text: #e8e4df;
+  --color-text-muted: #9a958f;
+  --color-accent: #8b7355;
+  --color-accent-hover: #9c8466;
+  --color-primary: #6a9a9a;
+  --color-primary-hover: #7aaaaa;
+  --color-secondary: #a08060;
+  --color-border: #3a3a42;
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-success: #7ab87a;
+  --color-warning: #d4b84a;
+  --color-error: #d48080;
+
+  --sketch-line: #e8e4df;
+  --sketch-pencil: #9a958f;
+  --highlight-color: #2a2a32;
+}
+
+/* =========================================================
+   SKETCH THEME (Life is Strange Style)
+   ========================================================= */
+[data-theme="sketch"] {
+  /* Classic sketchbook colors */
+  --color-bg: #e8e4df;
+  --color-bg-paper: #f5f3f0;
+  --color-text: #2d2a26;
+  --color-text-muted: #5a544d;
+  --color-accent: #4a90a4;
+  --color-accent-hover: #3a8094;
+  --color-primary: #6b8e6b;
+  --color-primary-hover: #5b7e5b;
+  --color-secondary: #8b6b8b;
+  --color-border: #4a4a4a;
+  --color-shadow: rgba(45, 42, 38, 0.15);
+  --color-success: #5a9a5a;
+  --color-warning: #c9a959;
+  --color-error: #b85a5a;
+
+  /* Sketch-specific */
+  --sketch-line: #1a1a1a;
+  --sketch-pencil: #4a4a4a;
+  --highlight-color: #f0e8d8;
+
+  /* Paper texture overlay */
+  --paper-overlay: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' /%3E%3CfeDiffuseLighting lighting-color='%23f5f3f0' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60' /%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' /%3E%3C/svg%3E");
+}
+
+/* =========================================================
+   BASE STYLES
+   ========================================================= */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-handwritten);
+  background-image: var(--paper-texture);
+  background-attachment: fixed;
+}
+
+/* =========================================================
+   SKETCH EFFECTS
+   ========================================================= */
+
+/* Hand-drawn border effect */
+.sketch-border {
+  border: var(--sketch-border-width) var(--sketch-border-style) var(--color-border);
+  border-radius: 2px 8px 4px 12px;
+  position: relative;
+}
+
+.sketch-border::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 1px solid var(--sketch-line);
+  border-radius: 4px 12px 8px 2px;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* Pencil sketch shadow */
+.sketch-shadow {
+  box-shadow:
+    3px 3px 0 var(--color-shadow),
+    4px 4px 0 var(--sketch-line);
+}
+
+/* Hand-drawn underline */
+.sketch-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.sketch-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent);
+  border-radius: 50% 20% 50% 20%;
+  transform: rotate(-1deg);
+}
+
+/* Paper texture overlay for sketch theme */
+[data-theme="sketch"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: var(--paper-overlay);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+/* Page load animation */
+@keyframes pageLoad {
+  from {
+    opacity: 0;
+    transform: translateY(20px) rotate(-1deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
+
+.animate-page-load {
+  animation: pageLoad 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Stagger children animation */
+@keyframes staggerIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px) rotate(-2deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotate(0);
+  }
+}
+
+.animate-stagger > * {
+  animation: staggerIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.animate-stagger > *:nth-child(1) { animation-delay: 0.1s; }
+.animate-stagger > *:nth-child(2) { animation-delay: 0.2s; }
+.animate-stagger > *:nth-child(3) { animation-delay: 0.3s; }
+.animate-stagger > *:nth-child(4) { animation-delay: 0.4s; }
+.animate-stagger > *:nth-child(5) { animation-delay: 0.5s; }
+
+/* Pencil draw animation */
+@keyframes pencilDraw {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: pencilDraw 2s ease-out forwards;
+}
+
+/* Sketch shake on hover */
+@keyframes sketchShake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-1deg); }
+  75% { transform: rotate(1deg); }
+}
+
+.hover-sketch:hover {
+  animation: sketchShake 0.3s ease-in-out;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Pulse glow for recording */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 var(--color-primary);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px var(--color-primary);
+    transform: scale(1.02);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Scribble animation for loading */
+@keyframes scribble {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(5deg) scale(1.05); }
+  50% { transform: rotate(0deg) scale(1); }
+  75% { transform: rotate(-5deg) scale(0.95); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.animate-scribble {
+  animation: scribble 1s ease-in-out infinite;
+}
+
+/* =========================================================
+   COMPONENT STYLES
+   ========================================================= */
+
+/* Buttons - Hand-drawn style */
+.btn-sketch {
+  font-family: var(--font-handwritten);
+  border: 2px solid var(--sketch-line);
+  border-radius: 4px 8px 6px 3px;
+  background: var(--color-bg-paper);
+  color: var(--color-text);
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition-smooth);
+  box-shadow: 2px 2px 0 var(--color-shadow);
+}
+
+.btn-sketch::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 1px solid var(--sketch-line);
+  border-radius: 3px 6px 5px 2px;
+  opacity: 0;
+  transition: var(--transition-smooth);
+}
+
+.btn-sketch:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--color-shadow);
+  background: var(--highlight-color);
+}
+
+.btn-sketch:hover::before {
+  opacity: 0.3;
+}
+
+.btn-sketch:active {
+  transform: translate(0, 0);
+  box-shadow: 1px 1px 0 var(--color-shadow);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+}
+
+/* Cards - Paper note style */
+.card-sketch {
+  background: var(--color-bg-paper);
+  border: 2px solid var(--sketch-line);
+  border-radius: 3px 8px 5px 12px;
+  padding: 1.5rem;
+  position: relative;
+  box-shadow:
+    3px 3px 0 var(--color-shadow),
+    inset 0 0 60px rgba(0,0,0,0.02);
+}
+
+.card-sketch::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 20px;
+  background: var(--color-accent);
+  border-radius: 2px;
+  box-shadow: 0 2px 4px var(--color-shadow);
+}
+
+/* Inputs - Hand-drawn */
+.input-sketch {
+  font-family: var(--font-handwritten);
+  background: var(--color-bg-paper);
+  border: 2px solid var(--sketch-pencil);
+  border-radius: 4px 2px 6px 3px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: var(--color-text);
+  transition: var(--transition-smooth);
+  outline: none;
+}
+
+.input-sketch:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(90, 122, 122, 0.1);
+  transform: rotate(-0.5deg);
+}
+
+/* Select dropdown - Sketch style */
+.select-sketch {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='none' stroke='%232d2a26' stroke-width='2' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+/* Range slider - Sketch style */
+.range-sketch {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 3px;
+  outline: none;
+}
+
+.range-sketch::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--color-primary);
+  border: 2px solid var(--sketch-line);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.range-sketch::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background: var(--color-primary-hover);
+}
+
+/* =========================================================
+   THEME SWITCHER
+   ========================================================= */
+.theme-switcher {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--color-bg-paper);
+  border: 2px solid var(--sketch-line);
+  border-radius: 20px;
+  box-shadow: 2px 2px 0 var(--color-shadow);
+}
+
+.theme-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.theme-btn:hover {
+  transform: scale(1.1);
+}
+
+.theme-btn.active {
+  border-color: var(--sketch-line);
+  box-shadow: 0 0 0 2px var(--color-bg-paper), 0 0 0 4px var(--sketch-line);
+}
+
+.theme-btn.light {
+  background: linear-gradient(135deg, #f5f3f0 50%, #c4a77d 50%);
+}
+
+.theme-btn.dark {
+  background: linear-gradient(135deg, #1a1a1f 50%, #6a9a9a 50%);
+}
+
+.theme-btn.sketch {
+  background: linear-gradient(135deg, #e8e4df 50%, #4a90a4 50%);
+}
+
+/* =========================================================
+   AUDIO VISUALIZER SKETCH STYLE
+   ========================================================= */
+.visualizer-sketch {
+  filter: url('#sketch-filter');
+}
+
+/* Tape effect for sticky notes */
+.tape-effect {
+  position: relative;
+}
+
+.tape-effect::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 60px;
+  height: 25px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Coffee stain effect (decorative) */
+.coffee-stain {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid rgba(139, 115, 85, 0.1);
+  pointer-events: none;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px) {
+  .card-sketch {
+    padding: 1rem;
+  }
+
+  .btn-sketch {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+  }
+
+  /* Reduce animations on mobile for performance */
+  .animate-float {
+    animation: none;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================================
+   SCROLLBAR STYLING
+   ========================================================= */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+  border-left: 1px solid var(--color-border);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border: 2px solid var(--color-bg);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-hover);
+}

@@ -18,6 +18,7 @@ interface TTSState {
     refText: string;
     xVectorOnly: boolean;
     consentAcknowledged: boolean;
+    cloneTimbre: string | null; // Selected speaker timbre for voice clone guidance
 
     // Job State
     isGenerating: boolean;
@@ -43,6 +44,7 @@ interface TTSState {
     setRefText: (text: string) => void;
     setXVectorOnly: (val: boolean) => void;
     setConsentAcknowledged: (val: boolean) => void;
+    setCloneTimbre: (timbre: string | null) => void;
 
     generate: (audioFile?: Blob) => Promise<void>;
     cancelGeneration: () => Promise<void>;
@@ -56,12 +58,13 @@ export const useTTSStore = create<TTSState>((set, get) => ({
     instruct: '',
     advancedMode: false,
 
-    selectedSpeaker: 'Vivian', // Default
+    selectedSpeaker: 'vivian', // Default
     selectedLanguage: 'Auto',
 
     refText: '',
     xVectorOnly: false,
     consentAcknowledged: false,
+    cloneTimbre: null, // No timbre selected by default for voice clone
 
     isGenerating: false,
     jobId: null,
@@ -84,6 +87,7 @@ export const useTTSStore = create<TTSState>((set, get) => ({
     setRefText: (text) => set({ refText: text }),
     setXVectorOnly: (val) => set({ xVectorOnly: val }),
     setConsentAcknowledged: (val) => set({ consentAcknowledged: val }),
+    setCloneTimbre: (timbre) => set({ cloneTimbre: timbre }),
 
     fetchMetadata: async () => {
         try {
@@ -91,6 +95,8 @@ export const useTTSStore = create<TTSState>((set, get) => ({
                 api.getSpeakers(),
                 api.getLanguages()
             ]);
+            console.log("Loaded speakers:", speakers);
+            console.log("Loaded languages:", languages);
             set({ speakers, languages });
 
             // If current speaker not in list, pick first available
@@ -100,11 +106,12 @@ export const useTTSStore = create<TTSState>((set, get) => ({
             }
         } catch (err) {
             console.error("Failed to load metadata", err);
+            set({ speakers: [], languages: [] });
         }
     },
 
     generate: async (audioFile?: Blob) => {
-        const { mode, text, instruct, selectedSpeaker, selectedLanguage, refText, xVectorOnly, consentAcknowledged } = get();
+        const { mode, text, instruct, selectedSpeaker, selectedLanguage, refText, xVectorOnly, cloneTimbre } = get();
 
         set({ isGenerating: true, error: null, progress: 0, jobId: null, resultAudioUrl: null, jobStatus: 'queued' });
 
@@ -131,7 +138,9 @@ export const useTTSStore = create<TTSState>((set, get) => ({
                     language: selectedLanguage,
                     ref_text: refText || undefined,
                     x_vector_only_mode: xVectorOnly,
-                    consent_acknowledged: consentAcknowledged
+                    consent_acknowledged: true,
+                    instruct: instruct || undefined,
+                    speaker: cloneTimbre || undefined // Pass timbre guide if selected
                 }, audioFile);
             }
 
@@ -140,11 +149,13 @@ export const useTTSStore = create<TTSState>((set, get) => ({
             // Poll for completion
             const polling = async () => {
                 const status = await api.getJobStatus(jobRes.job_id);
+                // Prepend /TTS to the audio URL since backend returns /api/v1/...
+                const audioUrl = status.audio_url ? `/TTS${status.audio_url}` : null;
                 set({
                     jobStatus: status.status,
                     progress: status.progress || 0,
                     error: status.error,
-                    resultAudioUrl: status.audio_url
+                    resultAudioUrl: audioUrl
                 });
 
                 if (status.status === 'completed' || status.status === 'failed' || status.status === 'cancelled') {

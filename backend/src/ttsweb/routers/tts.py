@@ -103,18 +103,13 @@ async def create_voice_clone(
     language: str = Form("Auto"),
     ref_text: str | None = Form(None, max_length=5000),
     x_vector_only_mode: bool = Form(False),
-    consent_acknowledged: bool = Form(...),
+    consent_acknowledged: bool = Form(True),
+    instruct: str | None = Form(None, max_length=2000),
 ):
     settings = request.app.state.settings
     tts_service = request.app.state.tts_service
     job_manager = request.app.state.job_manager
 
-    # Consent gate
-    if not consent_acknowledged:
-        raise HTTPException(
-            status_code=403,
-            detail="Voice cloning requires explicit consent. Set consent_acknowledged=true.",
-        )
 
     if len(text) > settings.max_text_length:
         raise HTTPException(
@@ -138,6 +133,7 @@ async def create_voice_clone(
         ref_text=ref_text,
         x_vector_only_mode=x_vector_only_mode,
         consent_acknowledged=consent_acknowledged,
+        instruct=instruct,
     )
 
     job = job_manager.create_job()

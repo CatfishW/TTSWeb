@@ -8,7 +8,7 @@ import {
     type LanguageInfo
 } from '@/types/schema';
 
-const API_BASE = '/api/v1'; // Assumes proxy or correct base URL
+const API_BASE = '/TTS/api/v1'; // API base for nginx /TTS/ proxy
 
 async function handleResponse<T>(response: Response): Promise<T> {
     if (!response.ok) {
@@ -62,6 +62,7 @@ export const api = {
         if (req.ref_text) formData.append('ref_text', req.ref_text);
         formData.append('x_vector_only_mode', String(req.x_vector_only_mode || false));
         formData.append('consent_acknowledged', String(req.consent_acknowledged));
+        if (req.instruct) formData.append('instruct', req.instruct);
 
         const res = await fetch(`${API_BASE}/tts/voice-clone`, {
             method: 'POST',

@@ -121,7 +121,7 @@ class ModelManager:
             self._settings.model_custom_voice,
             device_map="cuda:0",
             dtype=torch.bfloat16,
-            attn_implementation="flash_attention_2",
+            # attn_implementation disabled - using default attention
         )
         self._loaded.add("custom_voice")
         logger.info("CustomVoice model loaded")
@@ -136,7 +136,7 @@ class ModelManager:
             self._settings.model_voice_design,
             device_map="cuda:0",
             dtype=torch.bfloat16,
-            attn_implementation="flash_attention_2",
+            # attn_implementation disabled - using default attention
         )
         self._loaded.add("voice_design")
         logger.info("VoiceDesign model loaded")
@@ -151,7 +151,7 @@ class ModelManager:
             self._settings.model_base,
             device_map="cuda:0",
             dtype=torch.bfloat16,
-            attn_implementation="flash_attention_2",
+            # attn_implementation disabled - using default attention
         )
         self._loaded.add("base")
         logger.info("Base model loaded")

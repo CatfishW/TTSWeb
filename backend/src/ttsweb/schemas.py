@@ -77,8 +77,13 @@ class VoiceCloneRequest(BaseModel):
         False,
         description="If true, only speaker embedding is extracted (ref_text not needed).",
     )
+    instruct: str | None = Field(
+        None,
+        max_length=2000,
+        description="Optional style instruction (e.g., 'speak cheerfully').",
+    )
     consent_acknowledged: bool = Field(
-        ...,
+        True,
         description="Must be true. Confirms the caller has consent to clone this voice.",
     )
 

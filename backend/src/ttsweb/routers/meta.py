@@ -27,57 +27,52 @@ SUPPORTED_LANGUAGES = [
     LanguageInfo(code="it", name="Italian"),
 ]
 
-# Speaker list from Qwen3-TTS-12Hz-1.7B-CustomVoice
+# Speaker list from Qwen3-TTS-12Hz-1.7B-CustomVoice (actual supported speakers)
 SPEAKERS = [
     SpeakerInfo(
-        name="Vivian",
+        name="vivian",
         languages=["Chinese", "English"],
         description="Female, warm and expressive. Native Chinese, fluent English.",
     ),
     SpeakerInfo(
-        name="Ryan",
+        name="ryan",
         languages=["English", "Chinese"],
         description="Male, clear and confident voice. Native English speaker.",
     ),
     SpeakerInfo(
-        name="Aria",
+        name="aiden",
         languages=["English"],
-        description="Female, professional and calm tone. Great for narration.",
+        description="Male, youthful and energetic voice.",
     ),
     SpeakerInfo(
-        name="Oliver",
+        name="dylan",
         languages=["English"],
+        description="Male, professional and calm tone. Great for narration.",
+    ),
+    SpeakerInfo(
+        name="eric",
+        languages=["English", "Chinese"],
         description="Male, friendly and conversational voice.",
     ),
     SpeakerInfo(
-        name="Bella",
-        languages=["Chinese"],
-        description="Female, youthful and energetic voice. Native Chinese speaker.",
-    ),
-    SpeakerInfo(
-        name="Ethan",
-        languages=["Chinese", "English"],
-        description="Male, deep and authoritative voice.",
-    ),
-    SpeakerInfo(
-        name="Claire",
-        languages=["English", "French"],
-        description="Female, elegant and articulate voice.",
-    ),
-    SpeakerInfo(
-        name="Lucas",
-        languages=["English", "German"],
-        description="Male, warm and steady voice.",
-    ),
-    SpeakerInfo(
-        name="Sophia",
+        name="ono_anna",
         languages=["Japanese", "English"],
         description="Female, gentle and melodic voice.",
     ),
     SpeakerInfo(
-        name="Leo",
+        name="serena",
+        languages=["English"],
+        description="Female, elegant and articulate voice.",
+    ),
+    SpeakerInfo(
+        name="sohee",
         languages=["Korean", "English"],
-        description="Male, dynamic and expressive voice.",
+        description="Female, dynamic and expressive voice.",
+    ),
+    SpeakerInfo(
+        name="uncle_fu",
+        languages=["Chinese"],
+        description="Male, deep and authoritative voice. Native Chinese speaker.",
     ),
 ]
 

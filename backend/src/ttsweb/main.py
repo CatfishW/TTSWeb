@@ -107,7 +107,7 @@ def create_app() -> FastAPI:
     app.include_router(tts.router, prefix=api_prefix)
     app.include_router(tokenizer.router, prefix=api_prefix)
     app.include_router(jobs.router, prefix=api_prefix)
-    app.include_router(meta.router, prefix=api_prefix)
+    app.include_router(meta.router, prefix=f"{api_prefix}/meta")
     app.include_router(health.router, prefix=api_prefix)
 
     # WebSocket (also under API v1)

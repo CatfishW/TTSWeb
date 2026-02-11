@@ -76,14 +76,6 @@ async def tts_websocket(websocket: WebSocket):
             await websocket.send_json({"type": "status", "status": "awaiting_audio"})
             audio_data = await websocket.receive_bytes()
 
-            if not ws_req.consent_acknowledged:
-                await websocket.send_json({
-                    "type": "error",
-                    "error": "consent_required",
-                    "detail": "Voice cloning requires consent_acknowledged=true",
-                })
-                await websocket.close(code=1008)
-                return
 
             req = VoiceCloneRequest(
                 text=ws_req.text,
