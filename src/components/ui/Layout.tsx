@@ -65,6 +65,12 @@ export function Layout({ children }: LayoutProps) {
                         active={mode === 'clone'}
                         onClick={() => { setMode('clone'); setSidebarOpen(false); }}
                     />
+                    <NavItem
+                        icon={<Settings />}
+                        label="Tokenizer"
+                        active={mode === 'tokenizer'}
+                        onClick={() => { setMode('tokenizer'); setSidebarOpen(false); }}
+                    />
                     <div className="flex-1" />
                     <NavItem icon={<Settings />} label="Settings" onClick={() => { }} />
                 </nav>

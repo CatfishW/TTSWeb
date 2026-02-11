@@ -80,6 +80,27 @@ export const api = {
         await fetch(`${API_BASE}/jobs/${jobId}/cancel`, { method: 'POST' });
     },
 
+    // Tokenizer
+    encode: async (audioFile: Blob): Promise<{ tokens: number[]; count: number }> => {
+        const formData = new FormData();
+        formData.append('audio', audioFile, 'input.wav');
+        const res = await fetch(`${API_BASE}/tokenizer/encode`, {
+            method: 'POST',
+            body: formData,
+        });
+        return handleResponse(res);
+    },
+
+    decode: async (tokens: number[]): Promise<Blob> => {
+        const res = await fetch(`${API_BASE}/tokenizer/decode`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tokens }),
+        });
+        if (!res.ok) throw new Error("Decode failed");
+        return res.blob();
+    },
+
     // Helper: Poll until completion
     pollJob: async (
         jobId: string,

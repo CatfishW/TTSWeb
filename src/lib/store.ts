@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { api } from '@/lib/api';
 import { type JobStatus, type SpeakerInfo, type LanguageInfo, type TTSJobResponse } from '@/types/schema';
 
-export type TTSMode = 'custom' | 'design' | 'clone';
+export type TTSMode = 'custom' | 'design' | 'clone' | 'tokenizer';
 
 interface TTSState {
     mode: TTSMode;

@@ -6,6 +6,8 @@ import { AudioRecorder } from './AudioRecorder';
 import { AudioPlayer } from './AudioPlayer';
 import { cn } from '@/lib/utils';
 
+import { Tokenizer } from './Tokenizer';
+
 export function Generator() {
     const {
         text, setText, instruct, setInstruct, mode, advancedMode, toggleAdvancedMode,
@@ -24,6 +26,17 @@ export function Generator() {
         if (!text) return;
         generate(recordedBlob);
     };
+
+    if (mode === 'tokenizer') {
+        return (
+            <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                    <ModeSelector />
+                </div>
+                <Tokenizer />
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6">
