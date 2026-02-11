@@ -18,7 +18,7 @@ export function Generator() {
 
     useEffect(() => {
         fetchMetadata();
-    }, []);
+    }, [fetchMetadata]);
 
     const handleGenerate = () => {
         if (!text) return;
@@ -68,6 +68,7 @@ export function Generator() {
                             className="w-full h-40 p-4 rounded-xl bg-stone-50 border border-stone-200 focus:border-rose-400 outline-none resize-none transition-all placeholder:text-stone-400 text-stone-800 text-lg leading-relaxed"
                             placeholder="What should I say?"
                             disabled={isGenerating}
+                            aria-label="Text to synthesize"
                         />
                     </section>
 
@@ -138,6 +139,7 @@ export function Generator() {
                                     disabled={isGenerating}
                                     className="w-full h-24 p-3 rounded-lg bg-stone-50 border border-stone-200 outline-none focus:border-rose-400 text-stone-700 resize-none"
                                     placeholder="e.g. An old man with a raspy voice, speaking slowly and thoughtfully."
+                                    aria-label="Voice description for design"
                                 />
                             </div>
                         )}

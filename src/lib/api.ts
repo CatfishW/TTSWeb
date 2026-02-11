@@ -17,7 +17,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
         try {
             const errorJson = JSON.parse(errorText);
             if (errorJson.detail) errorMessage = errorJson.detail;
-        } catch (e) { /* ignore */ }
+        } catch { /* ignore */ }
         throw new Error(errorMessage);
     }
     return response.json();

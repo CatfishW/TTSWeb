@@ -92,6 +92,12 @@ export const useTTSStore = create<TTSState>((set, get) => ({
                 api.getLanguages()
             ]);
             set({ speakers, languages });
+
+            // If current speaker not in list, pick first available
+            const { selectedSpeaker } = get();
+            if (speakers.length > 0 && !speakers.find(s => s.name === selectedSpeaker)) {
+                set({ selectedSpeaker: speakers[0].name });
+            }
         } catch (err) {
             console.error("Failed to load metadata", err);
         }
@@ -151,10 +157,11 @@ export const useTTSStore = create<TTSState>((set, get) => ({
 
             polling();
 
-        } catch (err: any) {
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : "Generation failed";
             set({
                 isGenerating: false,
-                error: err.message || "Generation failed",
+                error: message,
                 jobStatus: 'failed'
             });
         }

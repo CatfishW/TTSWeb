@@ -19,7 +19,8 @@ export function AudioVisualizer({ stream, audioUrl, className, barColor = '#f43f
         if (!stream && !audioUrl) return;
 
         if (!audioContextRef.current) {
-            audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+            const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+            audioContextRef.current = new AudioContextClass();
         }
 
         const ctx = audioContextRef.current;
@@ -52,7 +53,7 @@ export function AudioVisualizer({ stream, audioUrl, className, barColor = '#f43f
                 sourceRef.current.connect(analyser);
                 analyser.connect(ctx.destination);
                 // audio.play().catch(e => console.error("Auto-play prevented", e)); 
-            } catch (e) {
+            } catch {
                 // Re-connecting same element might fail if already connected
             }
         }
